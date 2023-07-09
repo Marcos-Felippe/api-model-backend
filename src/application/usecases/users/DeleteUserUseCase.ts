@@ -1,3 +1,4 @@
+import { ProjectRepository } from "../../../infra/repositories/projects/ProjectRepository";
 import { UserRepository } from "../../../infra/repositories/users/UserRepository";
 
 type DeleteUserResponse = {
@@ -8,7 +9,8 @@ type DeleteUserResponse = {
 export class DeleteUserUseCase {
 
     constructor(
-        private userRepository: UserRepository
+        private userRepository: UserRepository,
+        private projectRepository: ProjectRepository
     ) {}
 
     async execute(id: string): Promise<DeleteUserResponse> {
@@ -25,14 +27,23 @@ export class DeleteUserUseCase {
                 };
             }
 
-            const deletedMessage = await this.userRepository.deleteUser(id);
+            const deletedProjectMessage = await this.projectRepository.deleteUserProjects(id);
+
+            if(!deletedProjectMessage) {
+                return {
+                    deletedMessage: null,
+                    errorMessage: "Internal Server Error",
+                };
+            }
+
+            const deletedUserMessage = await this.userRepository.deleteUser(id);
 
             return {
-                deletedMessage,
+                deletedMessage: deletedUserMessage,
                 errorMessage: null,
             };
+            
         } catch (error) {
-            console.log(error);
             return {
                 deletedMessage: null,
                 errorMessage: "Internal Server Error"

@@ -48,8 +48,8 @@ export class CreateUserUseCase {
                 user: user,
                 errorMessage: null
             };
+            
         } catch (error) {
-            console.log(error);
             return {
                 user: null,
                 errorMessage: "Internal Server Error"

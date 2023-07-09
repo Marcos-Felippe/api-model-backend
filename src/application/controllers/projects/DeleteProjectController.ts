@@ -1,25 +1,29 @@
 import { Request, Response } from "express";
-import { MongoUserRepository } from "../../../infra/repositories/users/MongoUserRepository";
-import { DeleteUserUseCase } from "../../usecases/users/DeleteUserUseCase";
 import { MongoProjectRepository } from "../../../infra/repositories/projects/MongoProjectRepository";
+import { DeleteProjectUseCase } from "../../usecases/projects/DeleteProjectUseCase";
+import { MongoUserRepository } from "../../../infra/repositories/users/MongoUserRepository";
 
-export class DeleteUserController {
+export class DeleteProjectController {
     async handle(request: Request, response: Response) {
-        const { id } = request.params;
+        const { id, owner } = request.params;
 
         if(!id){
             return response.status(400).json("You need to pass an id");
         }
 
-        const userRepository = new MongoUserRepository();
-        const projectsRepository = new MongoProjectRepository();
+        if(!owner){
+            return response.status(400).json("You need to pass an owner");
+        }
 
-        const deleteUserUseCase = new DeleteUserUseCase(
-            userRepository,
-            projectsRepository
+        const projectRepository = new MongoProjectRepository();
+        const userRepository = new MongoUserRepository();
+
+        const deleteProjectUseCase = new DeleteProjectUseCase(
+            projectRepository,
+            userRepository
         );
 
-        const { deletedMessage, errorMessage } = await deleteUserUseCase.execute(id);
+        const { deletedMessage, errorMessage } = await deleteProjectUseCase.execute({id, owner});
 
         if(errorMessage){
             if(errorMessage == "Not Found"){

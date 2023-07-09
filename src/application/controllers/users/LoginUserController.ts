@@ -15,7 +15,7 @@ export class LoginUserController {
             userRepository
         );
 
-        const {token, errorMessage} = await loginUserUseCase.execute({
+        const {token, userId, errorMessage} = await loginUserUseCase.execute({
             email,
             password
         });
@@ -31,7 +31,8 @@ export class LoginUserController {
         }
 
         return response.json({
-            token
+            token,
+            userId
         });
     }
 }

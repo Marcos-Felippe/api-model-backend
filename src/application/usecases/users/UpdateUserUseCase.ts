@@ -41,8 +41,8 @@ export class UpdateUserUseCase {
                 updateMessage: updatedUserMessage,
                 errorMessage: null
             };
+            
         } catch (error) {
-            console.log(error);
             return {
                 updateMessage: null,
                 errorMessage: "Internal Server Error"

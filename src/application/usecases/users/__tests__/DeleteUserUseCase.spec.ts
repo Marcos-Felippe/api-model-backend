@@ -4,6 +4,7 @@ import { InMemoryUserRepository } from "../../../../infra/repositories/users/in-
 //import { MongoUserRepository } from "../../../../infra/repositories/users/MongoUserRepository";
 import { DeleteUserUseCase } from "../DeleteUserUseCase";
 import { User } from "../../../../domain/User";
+import { InMemoryProjectRepository } from "../../../../infra/repositories/projects/in-memory/InMemoryProjectRepository";
 
 describe("Delete User Use Case Tests", () => {
     it("should be able to delete an user", async () => {
@@ -15,6 +16,7 @@ describe("Delete User Use Case Tests", () => {
         await user.encrypt();
 
         const usersRepository = new InMemoryUserRepository();
+        const projectsRepository = new InMemoryProjectRepository();
 
         const userCreated = await usersRepository.create(
             user
@@ -27,7 +29,8 @@ describe("Delete User Use Case Tests", () => {
         }
 
         const deleteUserUseCase = new DeleteUserUseCase(
-            usersRepository
+            usersRepository,
+            projectsRepository
         );
 
         const { deletedMessage, errorMessage } = await deleteUserUseCase.execute(id);
@@ -41,8 +44,11 @@ describe("Delete User Use Case Tests", () => {
         const id = "1";
 
         const usersRepository = new InMemoryUserRepository();
+        const projectsRepository = new InMemoryProjectRepository();
+        
         const deleteUserUseCase = new DeleteUserUseCase(
-            usersRepository
+            usersRepository,
+            projectsRepository
         );
 
         const { deletedMessage, errorMessage } = await deleteUserUseCase.execute(id);

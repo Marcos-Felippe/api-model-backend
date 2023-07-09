@@ -18,9 +18,11 @@ export class LoginUserUseCase {
         password,
     }: LoginUserRequest): Promise<{
         token: null;
+        userId: null;
         errorMessage: string;
     } | {
         token: string;
+        userId: string;
         errorMessage: null;
     }> {
 
@@ -31,6 +33,7 @@ export class LoginUserUseCase {
             if (!user) {
                 return {
                     token: null,
+                    userId: null,
                     errorMessage: "Not Found"
                 };
             }
@@ -38,6 +41,7 @@ export class LoginUserUseCase {
             if(!secret){
                 return {
                     token: null,
+                    userId: null,
                     errorMessage: "Internal Server Error"
                 };
             }
@@ -47,6 +51,7 @@ export class LoginUserUseCase {
             if (!passwordMatch) {
                 return {
                     token: null,
+                    userId: null,
                     errorMessage: "Not Found"
                 };
             }
@@ -55,12 +60,14 @@ export class LoginUserUseCase {
 
             return {
                 token,
+                userId: user.ID,
                 errorMessage: null
             };
+            
         } catch (error) {
-            console.log(error);
             return {
                 token: null,
+                userId: null,
                 errorMessage: "Internal Server Error"
             };
         }

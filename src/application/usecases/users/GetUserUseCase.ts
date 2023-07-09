@@ -39,8 +39,8 @@ export class GetUserUseCase {
                 user,
                 errorMessage: null
             };
+            
         } catch (error) {
-            console.log(error);
             return {
                 user: null,
                 errorMessage: "Internal Server Error"
