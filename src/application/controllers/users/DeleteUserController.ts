@@ -8,7 +8,7 @@ export class DeleteUserController {
         const { id } = request.params;
 
         if(!id){
-            return response.status(400).json("You need to pass an id");
+            return response.status(400).json("Missing Values");
         }
 
         const userRepository = new MongoUserRepository();

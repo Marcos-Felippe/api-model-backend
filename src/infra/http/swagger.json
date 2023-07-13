@@ -1,0 +1,513 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de manipulação de usuarios e projetos",
+        "description": "API com objetivo de criar, autenticar, selecionar, editar e deletar usuarios e seus projetos",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "API de test"
+        }
+    ],
+    "paths": {
+        "/user": {
+            "post": {
+                "sumary": "Cadastro de usuario",
+                "description": "Rota responsavel por fazer o cadastro de um novo usuario",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "user": {  
+                                    "value":{
+                                        "email": "email@provider.com",
+                                        "password": "senha@192$B"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "422": {
+                        "description": "User Already Exists"
+                    },
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "user": {  
+                                        "value": {
+                                            "user": {
+                                                "id": "060858a6-573f-4f5b-86a3-9ccceb4065c6",
+                                                "email": "email@provider.com"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "sumary": "Pegar usuario",
+                "description": "Rota responsavel por pegar um usuario cadastro",
+                "tags": ["Users"],
+                "security": [{ "BearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuario para busca",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "400": {
+                        "description": "Missing Values"
+                    },
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "user": {
+                                        "value": {
+                                            "user": {
+                                                "id": "060858a6-573f-4f5b-86a3-9ccceb4065c6",
+                                                "email": "email@provider.com"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "sumary": "Atualizar usuario",
+                "description": "Rota responsavel por fazer a atualização de um dado de um usuario cadastrado",
+                "tags": ["Users"],
+                "security": [{ "BearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuario para busca",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "all": {  
+                                    "value":{
+                                        "email": "emailatualizado@provider.com",
+                                        "password": "senha14795@192$B"
+                                    }
+                                },
+                                "email": {  
+                                    "value":{
+                                        "email": "emailatualizado@provider.com"
+                                    }
+                                },
+                                "password": {  
+                                    "value":{
+                                        "password": "senha14795@192$B"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                    ,
+                    "400": {
+                        "description": "Missing Values"
+                    },
+                    "201": {
+                        "description": "Updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "all": {  
+                                        "value": {
+                                            "message": "Email and Password Updated"
+                                        }
+                                    },
+                                    "email": {  
+                                        "value": {
+                                            "message": "Email Updated"
+                                        }
+                                    },
+                                    "password": {  
+                                        "value": {
+                                            "message": "Password Updated"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "sumary": "Deletar usuario",
+                "description": "Rota responsavel por fazer a deleção de um usuario cadastrado",
+                "tags": ["Users"],
+                "security": [{ "BearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuario para busca",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                    ,
+                    "400": {
+                        "description": "Missing Values"
+                    },
+                    "200": {
+                        "description": "Deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "deletedMessage": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "user": {  
+                                        "value": {
+                                            "deletedMessage": "User deleted"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "sumary": "Login do usuario",
+                "description": "Rota responsavel por fazer o login de um usuario cadastrado",
+                "tags": ["Login"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "login": {  
+                                    "value":{
+                                        "email": "email@provider.com",
+                                        "password": "senha@192$B"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "400": {
+                        "description": "Missing Values"
+                    },
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "userId": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "login": {  
+                                        "value": {
+                                            "token": "060qqf858a6-gqgeg573f-4fegwgewgw5b-wevwgwfq8wgw6a3fqfqf-9ccceegwgb4065c6",
+                                            "userId": "060858a6-573f-4f5b-86a3-9ccceb4065c6"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{owner}/project": {
+            "post": {
+                "sumary": "Cadastro de um projeto",
+                "description": "Rota responsavel por fazer o cadastro de um novo projeto",
+                "tags": ["Projects"],
+                "security": [{ "BearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "owner",
+                        "in": "path",
+                        "description": "id do usuario dono do projeto para busca",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "owner": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "project": {  
+                                    "value":{
+                                        "title": "titulo 1",
+                                        "description": "descrição 1"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "422": {
+                        "description": "Project Already Exists"
+                    },
+                    "400": {
+                        "description": "Missing Values"
+                    },
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "owner": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "project": {  
+                                        "value": {
+                                            "project": {
+                                                "id": "51951fq-qf1qf1-fqf4q-f45q-fqqff",
+                                                "title": "titulo 1",
+                                                "description": "descrição 1",
+                                                "owner": "060858a6-573f-4f5b-86a3-9ccceb4065c6"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{owner}/project/{id}": {
+            "get": {
+                "sumary": "Pegar projeto",
+                "description": "Rota responsavel por pegar um projeto de um usuario",
+                "tags": ["Projects"],
+                "security": [{ "BearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "owner",
+                        "in": "path",
+                        "description": "id do usuario dono do projeto para busca",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do projeto para busca",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "400": {
+                        "description": "Missing Values"
+                    },
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "owner": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "project": {  
+                                        "value": {
+                                            "project": {
+                                                "id": "51951fq-qf1qf1-fqf4q-f45q-fqqff",
+                                                "title": "titulo 1",
+                                                "description": "descrição 1",
+                                                "owner": "060858a6-573f-4f5b-86a3-9ccceb4065c6"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            
+        },
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

@@ -8,11 +8,11 @@ export class DeleteProjectController {
         const { id, owner } = request.params;
 
         if(!id){
-            return response.status(400).json("You need to pass an id");
+            return response.status(400).json("Missing Values");
         }
 
         if(!owner){
-            return response.status(400).json("You need to pass an owner");
+            return response.status(400).json("Missing Values");
         }
 
         const projectRepository = new MongoProjectRepository();

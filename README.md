@@ -10,6 +10,8 @@ Run "npm run dev" to start the server.
 <br/>
 Run "npm run jest" and "npm run vitest" to test the application.
 <br/>
+API documentation at: /api-docs
+<br/>
 
 <hr/>
 🦘🐅🦝🐍
