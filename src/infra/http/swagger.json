@@ -99,6 +99,9 @@
                     "404": {
                         "description": "Not Found"
                     },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
                     "400": {
                         "description": "Missing Values"
                     },
@@ -184,8 +187,10 @@
                     },
                     "404": {
                         "description": "Not Found"
-                    }
-                    ,
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
                     "400": {
                         "description": "Missing Values"
                     },
@@ -241,8 +246,10 @@
                     },
                     "404": {
                         "description": "Not Found"
-                    }
-                    ,
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
                     "400": {
                         "description": "Missing Values"
                     },
@@ -388,6 +395,9 @@
                     "422": {
                         "description": "Project Already Exists"
                     },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
                     "400": {
                         "description": "Missing Values"
                     },
@@ -455,6 +465,9 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
                     },
                     "400": {
                         "description": "Missing Values"
