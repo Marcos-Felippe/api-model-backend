@@ -47,7 +47,7 @@ beforeAll(async () => {
     id_get = res1.body.user.id;
     id_delete = res2.body.user.id;
     id_update = res3.body.user.id;
-    token = resToken.body.token;
+    token = resToken.body.accessToken;
 });
 
 // Limpando o db após os testes e fechando a conexão com o banco 

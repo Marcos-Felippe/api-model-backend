@@ -4,7 +4,7 @@ import { GetUserController } from "../../../application/controllers/users/GetUse
 import { CreateUserController } from "../../../application/controllers/users/CreateUserController";
 import { DeleteUserController } from "../../../application/controllers/users/DeleteUserController";
 import { UpdateUserController } from "../../../application/controllers/users/UpdateUserController";
-import { LoginUserController } from "../../../application/controllers/users/LoginUserController";
+import { LoginUserController } from "../../../application/controllers/users/auth/LoginUserController";
 
 import { GetProjectController } from "../../../application/controllers/projects/GetProjectController";
 import { DeleteProjectController } from "../../../application/controllers/projects/DeleteProjectController";
@@ -13,11 +13,13 @@ import { UpdateProjectController } from "../../../application/controllers/projec
 
 import { authentication } from "../mildlewares/auth";
 import { GetManyProjectsController } from "../../../application/controllers/projects/GetManyProjectsController";
+import { RefreshTokenController } from "../../../application/controllers/users/auth/RefreshTokenController";
 
 const router = express.Router();
 
 // Controllers:
 const loginUserController = new LoginUserController();
+const refreshTokenController = new RefreshTokenController();
 
 const getUserController = new GetUserController();
 const createUserController = new CreateUserController();
@@ -39,6 +41,7 @@ router.get("/hello", (req, res) => {
 });
 
 router.post("/login", loginUserController.handle);
+router.post("/user/:id/refresh", refreshTokenController.handle);
 
 router.post("/user", createUserController.handle);
 router.get("/user/:id", authentication, getUserController.handle);

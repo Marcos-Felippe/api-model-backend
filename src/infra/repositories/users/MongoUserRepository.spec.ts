@@ -23,7 +23,7 @@ beforeAll(async () => {
         email: "email@mongo-repo-test-get",
         password: "123456"
     });
-    user1.encrypt();
+    await user1.encrypt();
 
     const userCreated1 = await usersRepository.create(
         user1
@@ -34,7 +34,7 @@ beforeAll(async () => {
         email: "email@mongo-repo-test-delete",
         password: "123456"
     });
-    user2.encrypt();
+    await user2.encrypt();
 
     const userCreated2 = await usersRepository.create(
         user2
@@ -45,7 +45,7 @@ beforeAll(async () => {
         email: "email@mongo-repo-test-update",
         password: "123456"
     });
-    user3.encrypt();
+    await user3.encrypt();
 
     const userCreated3 = await usersRepository.create(
         user3
@@ -74,7 +74,7 @@ describe("Mongo User Repository Create User Tests", () => {
             email: "email@mongo-repo-test-create",
             password: "123456"
         });
-        user.encrypt();
+        await user.encrypt();
 
         const userCreated = await usersRepository.create(
             user

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { MongoUserRepository } from "../../../infra/repositories/users/MongoUserRepository";
-import { LoginUserUseCase } from "../../usecases/users/LoginUserUseCase";
+import { MongoUserRepository } from "../../../../infra/repositories/users/MongoUserRepository";
+import { LoginUserUseCase } from "../../../usecases/users/auth/LoginUserUseCase";
 
 export class LoginUserController {
     async handle(request: Request, response: Response) {
@@ -15,7 +15,7 @@ export class LoginUserController {
             userRepository
         );
 
-        const {token, userId, errorMessage} = await loginUserUseCase.execute({
+        const {accessToken, refreshToken, expiresIn, userId, errorMessage} = await loginUserUseCase.execute({
             email,
             password
         });
@@ -31,7 +31,9 @@ export class LoginUserController {
         }
 
         return response.json({
-            token,
+            accessToken,
+            refreshToken,
+            expiresIn,
             userId
         });
     }

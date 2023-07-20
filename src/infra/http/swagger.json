@@ -281,7 +281,7 @@
             "post": {
                 "sumary": "Login do usuario",
                 "description": "Rota responsavel por fazer o login de um usuario cadastrado",
-                "tags": ["Login"],
+                "tags": ["Auth"],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -316,14 +316,20 @@
                     "400": {
                         "description": "Missing Values"
                     },
-                    "201": {
+                    "200": {
                         "description": "Created",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "token": {
+                                        "accessToken": {
                                             "type": "string"
+                                        },
+                                        "refreshToken": {
+                                            "type": "string"
+                                        },
+                                        "expiresIn": {
+                                            "type": "number"
                                         },
                                         "userId": {
                                             "type": "string"
@@ -333,8 +339,69 @@
                                 "examples": {
                                     "login": {  
                                         "value": {
-                                            "token": "060qqf858a6-gqgeg573f-4fegwgewgw5b-wevwgwfq8wgw6a3fqfqf-9ccceegwgb4065c6",
+                                            "accessToken": "060qqf858a6-gqgeg573f-4fegwgewgw5b-wevwgwfq8wgw6a3fqfqf-9ccceegwgb4065c6",
+                                            "refreshToken": "060qqf858a6-gqgeg573f-4fegwgewgw5b-wevwgwfq8wgw6a3fqfqf-9ccceegwgb4065c6",
+                                            "expiresIn": 3600,
                                             "userId": "060858a6-573f-4f5b-86a3-9ccceb4065c6"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}/refresh": {
+            "post": {
+                "sumary": "Refresh Token de Acesso",
+                "description": "Rota responsavel por fazer o refresh do token de acesso",
+                "tags": ["Auth"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "refreshToken": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "refresh": {  
+                                    "value":{
+                                        "refreshToken": "060qqf858a6-gqgeg573f-4fegwgewgw5b-wevwgwfq8wgw6a3fqfqf-9ccceegwgb4065c6"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "400": {
+                        "description": "Missing Values"
+                    },
+                    "200": {
+                        "description": "Refreshed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "accessToken": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "refresh": {  
+                                        "value": {
+                                            "accessToken": "060qqf858a6-gqgeg573f-4fegwgewgw5b-wevwgwfq8wgw6a3fqfqf-9ccceegwgb4065c6"
                                         }
                                     }
                                 }

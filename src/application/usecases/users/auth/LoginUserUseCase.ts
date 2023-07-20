@@ -1,6 +1,6 @@
-import { UserRepository } from "../../../infra/repositories/users/UserRepository";
-import { signUser } from "../../../infra/services/auth";
-import { comparePassword } from "../../../infra/services/encrypt";
+import { UserRepository } from "../../../../infra/repositories/users/UserRepository";
+import { signUser } from "../../../../infra/services/auth";
+import { comparePassword } from "../../../../infra/services/encrypt";
 
 interface LoginUserRequest {
     email: string
@@ -17,30 +17,39 @@ export class LoginUserUseCase {
         email,
         password,
     }: LoginUserRequest): Promise<{
-        token: null;
+        accessToken: null;
+        refreshToken: null;
+        expiresIn: null;
         userId: null;
         errorMessage: string;
     } | {
-        token: string;
+        accessToken: string;
+        refreshToken: string;
+        expiresIn: number;
         userId: string;
         errorMessage: null;
     }> {
 
         try {
             const user = await this.userRepository.findByEmail(email);
-            const secret = process.env.JWT_SECRET;
+            const secretAccess = process.env.JWT_SECRET;
+            const secretRefresh = process.env.JWT_REFRESH_SECRET;
 
             if (!user) {
                 return {
-                    token: null,
+                    accessToken: null,
+                    refreshToken: null,
+                    expiresIn: null,
                     userId: null,
                     errorMessage: "Not Found"
                 };
             }
 
-            if(!secret){
+            if(!secretAccess || !secretRefresh){
                 return {
-                    token: null,
+                    accessToken: null,
+                    refreshToken: null,
+                    expiresIn: null,
                     userId: null,
                     errorMessage: "Internal Server Error"
                 };
@@ -50,23 +59,29 @@ export class LoginUserUseCase {
 
             if (!passwordMatch) {
                 return {
-                    token: null,
+                    accessToken: null,
+                    refreshToken: null,
+                    expiresIn: null,
                     userId: null,
                     errorMessage: "Not Found"
                 };
             }
             
-            const token = signUser(user, secret);
+            const { accessToken, refreshToken, expiresIn } = signUser(user, secretAccess, secretRefresh);
 
             return {
-                token,
+                accessToken,
+                refreshToken,
+                expiresIn,
                 userId: user.ID,
                 errorMessage: null
             };
             
         } catch (error) {
             return {
-                token: null,
+                accessToken: null,
+                refreshToken: null,
+                expiresIn: null,
                 userId: null,
                 errorMessage: "Internal Server Error"
             };

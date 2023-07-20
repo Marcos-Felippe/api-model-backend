@@ -31,7 +31,7 @@ beforeAll(async () => {
             password: "123456"
         });
 
-    token = resToken.body.token;
+    token = resToken.body.accessToken;
 
 
     // Project para o teste get

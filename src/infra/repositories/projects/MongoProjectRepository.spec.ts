@@ -174,8 +174,6 @@ describe("Mongo Project Repository Get Many Projects Tests", () => {
             owner_get
         );
 
-        console.log(projects[0]);
-
         expect(projects[0].title).toEqual("Title mongo-repo-test-get");
         expect(projects[0].description).toEqual("Description mongo-repo-test-get");
         expect(projects[0].owner).toEqual(owner_get);
